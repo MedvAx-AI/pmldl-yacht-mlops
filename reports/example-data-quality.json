@@ -1,0 +1,25 @@
+{
+  "raw_rows": 308,
+  "clean_rows": 308,
+  "invalid_or_duplicate_rows_removed": 0,
+  "training_outliers_removed": 0,
+  "train_rows": 238,
+  "test_rows": 70,
+  "train_hulls": 17,
+  "test_hulls": 5,
+  "split": "GroupShuffleSplit by five hull geometry features; seed=42",
+  "outlier_fences": {
+    "lower": {
+      "length_displacement": 3.7799999999999994,
+      "beam_draught": 2.3099999999999987,
+      "length_beam": 2.0700000000000003,
+      "froude": -0.3249999999999999
+    },
+    "upper": {
+      "length_displacement": 6.09,
+      "beam_draught": 5.670000000000002,
+      "length_beam": 4.59,
+      "froude": 0.8999999999999999
+    }
+  }
+}

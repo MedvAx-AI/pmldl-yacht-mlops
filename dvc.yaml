@@ -1,0 +1,44 @@
+stages:
+  prepare:
+    cmd: python code/datasets/prepare.py
+    deps:
+      - code/datasets/prepare.py
+      - data/raw/yacht_hydrodynamics.data
+      - requirements-model.txt
+    outs:
+      - data/processed/train.csv:
+          cache: false
+      - data/processed/test.csv:
+          cache: false
+      - reports/data_quality.json:
+          cache: false
+  train:
+    cmd: python code/models/train.py
+    deps:
+      - code/models/train.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - reports/data_quality.json
+      - requirements.txt
+    outs:
+      - models/model.joblib:
+          cache: false
+      - models/metadata.json:
+          cache: false
+      - reports/predictions.csv:
+          cache: false
+    metrics:
+      - reports/metrics.json:
+          cache: false
+  deploy:
+    cmd: python code/deployment/deploy.py
+    deps:
+      - code/deployment
+      - requirements-model.txt
+      - .dockerignore
+      - models/model.joblib
+      - models/metadata.json
+    always_changed: true
+    outs:
+      - reports/deployment.json:
+          cache: false

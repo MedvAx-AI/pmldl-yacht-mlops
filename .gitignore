@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+mlruns/
+mlflow.db*
+logs/
+models/*.joblib
+models/metadata.json
+data/processed/*.csv
+reports/*.json
+reports/predictions.csv
+cron.log
+!reports/example-*.json
+*.egg-info/

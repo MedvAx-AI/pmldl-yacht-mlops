@@ -1,0 +1,10 @@
+-r requirements-model.txt
+dvc==3.67.1
+mlflow==3.16.0
+fastapi==0.141.1
+uvicorn==0.52.4
+streamlit==1.63.0
+requests==2.34.2
+pytest==9.1.1
+httpx==0.28.1
+filelock==3.32.6

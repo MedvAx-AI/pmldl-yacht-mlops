@@ -1,0 +1,99 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python code/datasets/prepare.py
+    deps:
+    - path: code/datasets/prepare.py
+      hash: md5
+      md5: 930be36e2aafbec07a48a9ab61797532
+      size: 3167
+    - path: data/raw/yacht_hydrodynamics.data
+      hash: md5
+      md5: 7f76e247bb7ca38df3f1a5e918697b3f
+      size: 11487
+    - path: requirements-model.txt
+      hash: md5
+      md5: 0e10e2038fb882744389c4390f81eb39
+      size: 61
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 65d58a9aa81260002eb45ef52866d354
+      size: 2695
+    - path: data/processed/train.csv
+      hash: md5
+      md5: ee5cfdb676b753e4960b6ff462e1e956
+      size: 8730
+    - path: reports/data_quality.json
+      hash: md5
+      md5: 0fe8f7c96780f4be8e2b3e31cd246447
+      size: 670
+  train:
+    cmd: python code/models/train.py
+    deps:
+    - path: code/models/train.py
+      hash: md5
+      md5: cfd9e9e2680123026b3549dbe5a3cbbc
+      size: 3788
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 65d58a9aa81260002eb45ef52866d354
+      size: 2695
+    - path: data/processed/train.csv
+      hash: md5
+      md5: ee5cfdb676b753e4960b6ff462e1e956
+      size: 8730
+    - path: reports/data_quality.json
+      hash: md5
+      md5: 0fe8f7c96780f4be8e2b3e31cd246447
+      size: 670
+    - path: requirements.txt
+      hash: md5
+      md5: 8f355c4ec63756da4cc04d8e1c3bb939
+      size: 166
+    outs:
+    - path: models/metadata.json
+      hash: md5
+      md5: 2d7af41d6c4937536fc00c7977760232
+      size: 856
+    - path: models/model.joblib
+      hash: md5
+      md5: 9f62d8d68b1d800c177dc2a36ddaa1e1
+      size: 568057
+    - path: reports/metrics.json
+      hash: md5
+      md5: 33bfcda817e3670ec2516fbf8a515da3
+      size: 133
+    - path: reports/predictions.csv
+      hash: md5
+      md5: ad2c0f2b3f008094f2ac2b3062f74753
+      size: 1739
+  deploy:
+    cmd: python code/deployment/deploy.py
+    deps:
+    - path: .dockerignore
+      hash: md5
+      md5: dc7026d59435808786163cd347bdd615
+      size: 124
+    - path: code/deployment
+      hash: md5
+      md5: 6826a0294ca17cf679105670831c482a.dir
+      size: 22193
+      nfiles: 11
+    - path: models/metadata.json
+      hash: md5
+      md5: 2d7af41d6c4937536fc00c7977760232
+      size: 856
+    - path: models/model.joblib
+      hash: md5
+      md5: 9f62d8d68b1d800c177dc2a36ddaa1e1
+      size: 568057
+    - path: requirements-model.txt
+      hash: md5
+      md5: 0e10e2038fb882744389c4390f81eb39
+      size: 61
+    outs:
+    - path: reports/deployment.json
+      hash: md5
+      md5: 5cd328fea6d9b31509fd1feb284cb09a
+      size: 365

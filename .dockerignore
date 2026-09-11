@@ -1,0 +1,8 @@
+**
+!requirements-model.txt
+!code/
+!code/deployment/
+!code/deployment/**
+!models/
+!models/model.joblib
+!models/metadata.json
