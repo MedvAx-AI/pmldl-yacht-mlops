@@ -1,0 +1,20 @@
+[
+  {
+    "started_at": "2026-09-11T14:15:05.799742+00:00",
+    "finished_at": "2026-09-11T14:15:40.151837+00:00",
+    "duration_seconds": 34.35,
+    "exit_code": 0,
+    "log": "20260911T141505_799742Z.log",
+    "mlflow_run_id": "9c6fdde85c804f42a0f55f12f9fe799c",
+    "model_sha256": "4cacb457db90bdf90524757b73064fc897870a72ce0802d50112f9a93830bf36"
+  },
+  {
+    "started_at": "2026-09-11T14:20:06.759718+00:00",
+    "finished_at": "2026-09-11T14:20:40.936687+00:00",
+    "duration_seconds": 34.18,
+    "exit_code": 0,
+    "log": "20260911T142006_759718Z.log",
+    "mlflow_run_id": "dac3827f1f9d4235a43733b9b1d463d1",
+    "model_sha256": "4cacb457db90bdf90524757b73064fc897870a72ce0802d50112f9a93830bf36"
+  }
+]
