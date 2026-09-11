@@ -26,7 +26,7 @@ If you need a manual run, disable the schedule first or wait for an active run t
 - **Ports already allocated:** stop the other program using ports 8000/8501. Keep the documented ports consistent with the deployment smoke test.
 - **First build is slow:** allow downloads to finish before installing the schedule. Cached runs should fit within five minutes. Increase the interval if your hardware requires it.
 - **Windows task did not run:** the user must be signed in, the computer awake, and Docker running. Check the task's last result and local logs. Reinstall the task if the repository is moved.
-- **Model missing on a fresh clone:** run the complete pipeline; generated model binaries are intentionally not committed.
+- **Model missing or changed locally:** run the complete pipeline to regenerate it. A small verified model is also included in the repository.
 - **App reports temporary unavailability:** deployment briefly replaces containers. Wait for both health checks to pass and try again.
 
 Disable the scheduler after the demonstration and use `docker compose -f code/deployment/docker-compose.yml down` to release the ports. Do not run two scheduler types simultaneously.

@@ -8,6 +8,8 @@ mlflow.db*
 logs/
 models/*.joblib
 models/metadata.json
+!models/model.joblib
+!models/metadata.json
 data/processed/*.csv
 reports/*.json
 reports/predictions.csv

@@ -54,7 +54,7 @@ stages:
     outs:
     - path: models/metadata.json
       hash: md5
-      md5: 2d7af41d6c4937536fc00c7977760232
+      md5: acf1c550299f81227859dedbf4f7ed89
       size: 856
     - path: models/model.joblib
       hash: md5
@@ -82,7 +82,7 @@ stages:
       nfiles: 11
     - path: models/metadata.json
       hash: md5
-      md5: 2d7af41d6c4937536fc00c7977760232
+      md5: acf1c550299f81227859dedbf4f7ed89
       size: 856
     - path: models/model.joblib
       hash: md5
@@ -95,5 +95,5 @@ stages:
     outs:
     - path: reports/deployment.json
       hash: md5
-      md5: 5cd328fea6d9b31509fd1feb284cb09a
+      md5: 77633a0fc58bcb841ee6ea23e0cf9243
       size: 365

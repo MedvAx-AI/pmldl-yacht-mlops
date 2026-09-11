@@ -2,6 +2,8 @@
 
 A complete solution for **PMLDL Assignment 1: Deployment**. A small Extra Trees regressor predicts yacht residuary resistance from hull geometry and speed. The focus is a working, repeatable pipeline: raw data → cleaned splits → trained and tracked model → two running Docker services.
 
+Verified locally and in [Linux CI](https://github.com/MedvAx-AI/pmldl-yacht-mlops/actions/runs/34609059815): all 10 tests pass; held-out hull RMSE **1.280**, R² **0.993**. Two automatic deployments five minutes apart are recorded in [verification evidence](docs/VERIFICATION.md).
+
 ```mermaid
 flowchart LR
     S[Every 5 minutes] --> D[DVC forced reproduction]
@@ -151,7 +153,7 @@ requirements.txt         # Pinned direct dependencies
 requirements-model.txt   # Identical model dependencies for training and API
 ```
 
-Generated data, models, logs, and MLflow storage are excluded from Git and regenerated on each run. DVC outputs use `cache: false` because the data is tiny, raw data is included, and no external cache should be needed for a TA to reproduce the project. Direct dependency versions are pinned; transitive dependencies and the Python base-image patch release may receive updates. No Airflow directory is necessary because this project uses DVC.
+The small trained model (about 555 KiB) and matching metadata are included in Git, and the full pipeline regenerates them on every run. The bundled MLflow run ID identifies the original verification run; running the pipeline creates a new run in your own local tracking database. Generated splits, full logs, and MLflow storage are excluded from Git. DVC outputs use `cache: false` because the data is tiny, raw data is included, and no external cache should be needed for a TA to reproduce the project. Retraining updates `models/metadata.json` and `dvc.lock`; such local changes are expected while the scheduler runs. Direct dependency versions are pinned; transitive dependencies and the Python base-image patch release may receive updates. No Airflow directory is necessary because this project uses DVC.
 
 ## Verification and demonstration
 

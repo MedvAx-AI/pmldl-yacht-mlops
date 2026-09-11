@@ -1,0 +1,45 @@
+{
+  "model_sha256": "4cacb457db90bdf90524757b73064fc897870a72ce0802d50112f9a93830bf36",
+  "mlflow_run_id": "dac3827f1f9d4235a43733b9b1d463d1",
+  "trained_at": "2026-09-11T14:20:19.421983+00:00",
+  "features": [
+    "buoyancy",
+    "prismatic",
+    "length_displacement",
+    "beam_draught",
+    "length_beam",
+    "froude"
+  ],
+  "metrics": {
+    "mae": 0.5663690051020386,
+    "rmse": 1.2802318308416665,
+    "r2": 0.9930528044626595,
+    "baseline_rmse": 15.360400335318962
+  },
+  "training_ranges": {
+    "buoyancy": [
+      -5.0,
+      0.0
+    ],
+    "prismatic": [
+      0.53,
+      0.6
+    ],
+    "length_displacement": [
+      4.34,
+      5.14
+    ],
+    "beam_draught": [
+      2.98,
+      5.35
+    ],
+    "length_beam": [
+      2.73,
+      3.53
+    ],
+    "froude": [
+      0.125,
+      0.45
+    ]
+  }
+}
