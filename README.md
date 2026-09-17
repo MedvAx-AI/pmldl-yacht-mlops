@@ -69,7 +69,7 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
    The task stores absolute paths from this clone, so reinstall it after moving or cloning the project. Keep Docker Desktop running, the computer awake, and the user signed in. Show the next run time and a completed later log/run ID; you do not need to wait live if the evidence is already present.
 
-7. Stop everything after the defense:
+7. Stop everything:
 
        powershell -ExecutionPolicy Bypass -File scripts\remove-schedule.ps1
        docker compose -f code/deployment/docker-compose.yml down
