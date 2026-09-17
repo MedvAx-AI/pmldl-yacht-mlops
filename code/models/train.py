@@ -42,9 +42,14 @@ def train(root=ROOT):
         mlflow.log_params({"model": "ExtraTreesRegressor", "n_estimators": 80, "max_depth": 12, "random_state": 42,
                            "features": "hull geometry + Froude number powers 1,2,3", "split": "held-out hulls", "train_rows": len(training), "test_rows": len(testing)})
         mlflow.log_metrics(metrics)
+        # MLflow 3.x serializes scikit-learn models with skops and requires
+        # explicit trust for non-primitive estimator internals. This exact
+        # tree type is created by our ExtraTreesRegressor above; no user
+        # supplied model code is loaded.
         mlflow.sklearn.log_model(model, name="model", input_example=x_train.head(2),
                                 signature=infer_signature(x_train, model.predict(x_train)),
-                                pip_requirements=(root / "requirements-model.txt").read_text().splitlines())
+                                pip_requirements=(root / "requirements-model.txt").read_text().splitlines(),
+                                skops_trusted_types=["sklearn.tree._tree.Tree"])
         (root / "models").mkdir(exist_ok=True)
         (root / "reports").mkdir(exist_ok=True)
         temporary = root / "models/model.tmp.joblib"

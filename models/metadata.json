@@ -1,7 +1,7 @@
 {
   "model_sha256": "4cacb457db90bdf90524757b73064fc897870a72ce0802d50112f9a93830bf36",
-  "mlflow_run_id": "dac3827f1f9d4235a43733b9b1d463d1",
-  "trained_at": "2026-09-11T14:20:19.421983+00:00",
+  "mlflow_run_id": "d6f000dbb77847e692a55e9089f63fae",
+  "trained_at": "2026-09-17T07:09:01.920204+00:00",
   "features": [
     "buoyancy",
     "prismatic",

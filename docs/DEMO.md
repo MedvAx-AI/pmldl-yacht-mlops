@@ -1,11 +1,13 @@
 # TA demonstration (about 7 minutes)
 
+For a from-zero rehearsal, clone `https://github.com/MedvAx-AI/pmldl-yacht-mlops.git` into a new folder, create `.venv` with Python 3.13, install `requirements.txt`, and run `scripts/run_pipeline.py --once` successfully before showing the pages below. Keep Docker, MLflow, the scheduler, and all commands tied to that one clone; reinstall the scheduled task after moving the folder.
+
 1. Open the public GitHub repository. Show `dvc.yaml` and its prepare → train → deploy dependency graph (`dvc dag`).
 2. Show Docker Desktop running Linux containers. Open http://localhost:8501 and http://localhost:8000/docs.
 3. Show the six input fields, press **Predict resistance**, and change Froude number to see a different prediction. Expand the model explanation. The result includes an MLflow run ID.
 4. Run `docker compose -f code/deployment/docker-compose.yml ps` to show **two separate healthy containers**. Explain `API_URL=http://api:8000` and the model baked into the API image.
 5. Open generated `reports/data_quality.json`, `data/processed/train.csv`, and `test.csv`. Explain why hull identity is held out, and why learned outlier fences use only training data. The bundled clean data requires no artificial deletion.
-6. Start `mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000`. At http://localhost:5000 show `yacht-resistance`, the test metrics, parameters, signature, and saved model.
+6. From the same clone, start MLflow with an absolute path so the UI cannot accidentally open another copy's database: `$mlflowDbPath = (Join-Path (Get-Location) 'mlflow.db').Replace('\', '/')`; then run `.\.venv\Scripts\python.exe -m mlflow ui --backend-store-uri "sqlite:///$mlflowDbPath" --host 127.0.0.1 --port 5000`. At http://localhost:5000 choose **Training runs**, experiment `yacht-resistance`, **All time**, and clear filters; show the test metrics, parameters, signature, and saved model. The GenAI/Traces overview is not the training-run page and may show zero traces.
 7. Show the enabled Windows task (`Get-ScheduledTaskInfo -TaskName PMLDL-Yacht-Pipeline`) or the portable scheduler terminal. Show the timestamps in `logs/runs.jsonl`. Wait for the next five-minute start and inspect its timestamped log: **all three stages** execute.
 8. After that run succeeds, refresh http://localhost:8000/model-info and make another prediction in the app. Match the new run ID with `models/metadata.json` and MLflow. The model checksum may stay the same because training is deterministic; the **run ID changes**.
 

@@ -18,6 +18,79 @@ flowchart LR
 
 ## Quick start
 
+### Fresh copy and defense run (Windows PowerShell)
+
+For a defense rehearsal, use one new folder for the entire run. A fresh clone is the clean copy: it prevents stale virtual environments, MLflow databases, generated files, and scheduled tasks from another folder being mixed into the demonstration. Pick another folder name if this one already exists.
+
+Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers with Compose v2. Start Docker Desktop first and wait until docker version includes a working Server section. Ports 8000 and 8501 must be free; port 5000 is needed only for MLflow.
+
+1. Clone the public repository and enter the new folder:
+
+       $defenseRoot = "$env:USERPROFILE\Desktop\pmldl-yacht-mlops-defense"
+       git clone https://github.com/MedvAx-AI/pmldl-yacht-mlops.git $defenseRoot
+       Set-Location $defenseRoot
+
+2. Create the environment and install dependencies:
+
+       py -3.13 -m venv .venv
+       .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+       .\.venv\Scripts\python.exe -m pip check
+       docker version
+       docker compose version
+
+   Activation is optional because the commands use the virtual-environment interpreter explicitly. If py is unavailable, use the full path to Python 3.13.
+
+3. Run all three stages once before enabling the schedule:
+
+       .\.venv\Scripts\python.exe scripts\run_pipeline.py --once
+       $LASTEXITCODE
+
+   Exit code 0 means prepare, train, and deploy completed. The run creates processed CSVs, reports, the Joblib model, a local MLflow run, two Docker images, and healthy API/app containers. If it fails, inspect the newest file under logs and fix it before continuing.
+
+4. Verify the services and demonstrate a prediction:
+
+       docker compose -f code/deployment/docker-compose.yml ps
+       Invoke-RestMethod http://localhost:8000/health
+       Start-Process http://localhost:8501
+       Start-Process http://localhost:8000/docs
+
+   Both services must be healthy. In Streamlit enter -2.3, 0.558, 4.78, 3.99, 3.17, 0.300 and press Predict resistance. Change only Froude to 0.400 and submit again. Streamlit calls the API at http://api:8000 inside the Compose network; it does not load the model itself.
+
+5. Start MLflow from the same clone in a second PowerShell window. The absolute database path is important: opening a UI from another copy makes the experiment look empty.
+
+       Set-Location $defenseRoot
+       $mlflowDbPath = (Join-Path (Get-Location) 'mlflow.db').Replace('\', '/')
+       .\.venv\Scripts\python.exe -m mlflow ui --backend-store-uri "sqlite:///$mlflowDbPath" --host 127.0.0.1 --port 5000
+
+   Open http://localhost:5000, select Training runs, choose experiment yacht-resistance, set All time, and clear filters such as metrics.rmse < 1 or params.model = "tree". The GenAI/Traces overview may show zero traces because this is classic MLflow training. Open a run to show parameters, metrics, signature, and model artifact.
+
+6. Show the assignment in this order (about 7–10 minutes):
+
+   - GitHub and this Quick start section.
+   - dvc.yaml or dvc dag: prepare → train → deploy and dependencies.
+   - code/datasets/prepare.py, processed train/test CSVs, and reports/data_quality.json.
+   - code/models/train.py, models/model.joblib, models/metadata.json, reports/metrics.json, and the matching MLflow run ID.
+   - code/deployment/docker-compose.yml and docker compose ... ps: separate API and app containers.
+   - Streamlit predictions at Froude 0.300 and 0.400, then FastAPI /docs and /health.
+   - logs/runs.jsonl and a timestamped logs/*.log containing all three stages.
+   - tests and the passing GitHub Actions workflow.
+
+7. Enable the five-minute Windows schedule only after the manual run succeeds:
+
+       powershell -ExecutionPolicy Bypass -File scripts\install-schedule.ps1
+       Get-ScheduledTaskInfo -TaskName PMLDL-Yacht-Pipeline
+
+   The task stores absolute paths from this clone, so reinstall it after moving or cloning the project. Keep Docker Desktop running, the computer awake, and the user signed in. Show the next run time and a completed later log/run ID; you do not need to wait live if the evidence is already present.
+
+8. Stop everything after the defense:
+
+       powershell -ExecutionPolicy Bypass -File scripts\remove-schedule.ps1
+       docker compose -f code/deployment/docker-compose.yml down
+
+The repository includes the raw dataset, DVC configuration, Dockerfiles, and source code. No API key, GPU, DVC remote, manual model download, or Airflow installation is required. MLflow history and generated reports belong to the clone where they were produced.
+
+### Existing checkout shortcut
+
 Prerequisites: **Python 3.13**, Git, and **Docker Engine / Docker Desktop running Linux containers**, with Docker Compose v2 supporting `--wait`. Ports 8000 and 8501 must be free. The first installation and image build require internet access and can take several minutes; subsequent runs reuse Docker dependency layers.
 
 ```bash
@@ -113,8 +186,9 @@ Held-out metrics: MAE, RMSE, R², and a training-mean baseline RMSE. Training fa
 
 MLflow uses a local SQLite database and local artifact storage. To inspect it, run from the repository root:
 
-```bash
-mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000
+```powershell
+$mlflowDbPath = (Join-Path (Get-Location) 'mlflow.db').Replace('\', '/')
+.\.venv\Scripts\python.exe -m mlflow ui --backend-store-uri "sqlite:///$mlflowDbPath" --host 127.0.0.1 --port 5000
 ```
 
 Then open http://localhost:5000 and select `yacht-resistance`. An optional `MLFLOW_TRACKING_URI` environment variable can point training at another tracking server.
