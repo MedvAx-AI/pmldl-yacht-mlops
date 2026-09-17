@@ -219,8 +219,8 @@ The small trained model (about 555 KiB) and matching metadata are included in Gi
 ## Verification and demonstration
 
 ```bash
-python -m pytest -q
-dvc dag
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\dvc.exe dag
 docker compose -f code/deployment/docker-compose.yml ps
 ```
 
