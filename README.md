@@ -24,7 +24,7 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
 1. Clone the public repository and enter the new folder:
 
-       $defenseRoot = "$env:USERPROFILE\Desktop\pmldl-yacht-mlops-defense"
+       $defenseRoot = "$env:USERPROFILE\Desktop\pmldl-yacht-mlops"
        git clone https://github.com/MedvAx-AI/pmldl-yacht-mlops.git $defenseRoot
        Set-Location $defenseRoot
 
