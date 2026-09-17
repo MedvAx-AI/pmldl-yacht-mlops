@@ -42,10 +42,11 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
        .\.venv\Scripts\python.exe scripts\run_pipeline.py --once
        $LASTEXITCODE
+       docker compose -f code/deployment/docker-compose.yml ps
 
    Exit code 0 means prepare, train, and deploy completed. The run creates processed CSVs, reports, the Joblib model, a local MLflow run, two Docker images, and healthy API/app containers. If it fails, inspect the newest file under logs and fix it before continuing.
 
-4. Verify the services and demonstrate a prediction:
+5. Verify the services and demonstrate a prediction:
 
        docker compose -f code/deployment/docker-compose.yml ps
        Invoke-RestMethod http://localhost:8000/health
@@ -54,7 +55,7 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
    Both services must be healthy. Streamlit calls the API at http://api:8000 inside the Compose network; it does not load the model itself.
 
-5. Start MLflow from the same clone in a second PowerShell window. The absolute database path is important: opening a UI from another copy makes the experiment look empty.
+6. Start MLflow from the same clone in a second PowerShell window. The absolute database path is important: opening a UI from another copy makes the experiment look empty.
 
        Set-Location $defenseRoot
        $mlflowDbPath = (Join-Path (Get-Location) 'mlflow.db').Replace('\', '/')
@@ -62,14 +63,14 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
    Open http://localhost:5000, select Training runs, choose experiment yacht-resistance, set All time, and clear filters such as metrics.rmse < 1 or params.model = "tree". The GenAI/Traces overview may show zero traces because this is classic MLflow training. Open a run to show parameters, metrics, signature, and model artifact.
 
-6. Enable the five-minute Windows schedule only after the manual run succeeds:
+7. Enable the five-minute Windows schedule only after the manual run succeeds:
 
        powershell -ExecutionPolicy Bypass -File scripts\install-schedule.ps1
        Get-ScheduledTaskInfo -TaskName PMLDL-Yacht-Pipeline
 
    The task stores absolute paths from this clone, so reinstall it after moving or cloning the project. Keep Docker Desktop running, the computer awake, and the user signed in. Show the next run time and a completed later log/run ID; you do not need to wait live if the evidence is already present.
 
-7. Stop everything:
+8. Stop everything:
 
        powershell -ExecutionPolicy Bypass -File scripts\remove-schedule.ps1
        docker compose -f code/deployment/docker-compose.yml down
