@@ -18,9 +18,7 @@ flowchart LR
 
 ## Quick start
 
-### Fresh copy and defense run (Windows PowerShell)
-
-For a defense rehearsal, use one new folder for the entire run. A fresh clone is the clean copy: it prevents stale virtual environments, MLflow databases, generated files, and scheduled tasks from another folder being mixed into the demonstration. Pick another folder name if this one already exists.
+### (Windows PowerShell)
 
 Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers with Compose v2. Start Docker Desktop first and wait until docker version includes a working Server section. Ports 8000 and 8501 must be free; port 5000 is needed only for MLflow.
 
@@ -64,25 +62,14 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
    Open http://localhost:5000, select Training runs, choose experiment yacht-resistance, set All time, and clear filters such as metrics.rmse < 1 or params.model = "tree". The GenAI/Traces overview may show zero traces because this is classic MLflow training. Open a run to show parameters, metrics, signature, and model artifact.
 
-6. Show the assignment in this order (about 7–10 minutes):
-
-   - GitHub and this Quick start section.
-   - dvc.yaml or dvc dag: prepare → train → deploy and dependencies.
-   - code/datasets/prepare.py, processed train/test CSVs, and reports/data_quality.json.
-   - code/models/train.py, models/model.joblib, models/metadata.json, reports/metrics.json, and the matching MLflow run ID.
-   - code/deployment/docker-compose.yml and docker compose ... ps: separate API and app containers.
-   - Streamlit predictions at Froude 0.300 and 0.400, then FastAPI /docs and /health.
-   - logs/runs.jsonl and a timestamped logs/*.log containing all three stages.
-   - tests and the passing GitHub Actions workflow.
-
-7. Enable the five-minute Windows schedule only after the manual run succeeds:
+6. Enable the five-minute Windows schedule only after the manual run succeeds:
 
        powershell -ExecutionPolicy Bypass -File scripts\install-schedule.ps1
        Get-ScheduledTaskInfo -TaskName PMLDL-Yacht-Pipeline
 
    The task stores absolute paths from this clone, so reinstall it after moving or cloning the project. Keep Docker Desktop running, the computer awake, and the user signed in. Show the next run time and a completed later log/run ID; you do not need to wait live if the evidence is already present.
 
-8. Stop everything after the defense:
+7. Stop everything after the defense:
 
        powershell -ExecutionPolicy Bypass -File scripts\remove-schedule.ps1
        docker compose -f code/deployment/docker-compose.yml down
