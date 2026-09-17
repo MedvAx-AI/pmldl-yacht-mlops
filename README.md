@@ -52,7 +52,7 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
        Start-Process http://localhost:8501
        Start-Process http://localhost:8000/docs
 
-   Both services must be healthy. In Streamlit enter -2.3, 0.558, 4.78, 3.99, 3.17, 0.300 and press Predict resistance. Change only Froude to 0.400 and submit again. Streamlit calls the API at http://api:8000 inside the Compose network; it does not load the model itself.
+   Both services must be healthy. Streamlit calls the API at http://api:8000 inside the Compose network; it does not load the model itself.
 
 5. Start MLflow from the same clone in a second PowerShell window. The absolute database path is important: opening a UI from another copy makes the experiment look empty.
 
