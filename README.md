@@ -239,7 +239,7 @@ docker compose -f code/deployment/docker-compose.yml ps
 
 Run the pipeline before tests so the model artifact exists. GitHub Actions installs dependencies, executes all three stages with real Docker containers, runs the tests, and uploads reports and logs. CI runs on push/PR/manual dispatch; the five-minute deployment schedule runs on your persistent local host, since a hosted Actions runner disappears after its job.
 
-See [the TA demonstration checklist](docs/DEMO.md), [requirement-by-requirement mapping](docs/REQUIREMENTS.md), and [verification evidence](docs/VERIFICATION.md).
+See [requirement-by-requirement mapping](docs/REQUIREMENTS.md), and [verification evidence](docs/VERIFICATION.md).
 
 To stop services after disabling the scheduler:
 
