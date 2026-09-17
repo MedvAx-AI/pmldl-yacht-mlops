@@ -42,7 +42,6 @@ Prerequisites are Python 3.13, Git, and Docker Desktop running Linux containers 
 
        .\.venv\Scripts\python.exe scripts\run_pipeline.py --once
        $LASTEXITCODE
-       docker compose -f code/deployment/docker-compose.yml ps
 
    Exit code 0 means prepare, train, and deploy completed. The run creates processed CSVs, reports, the Joblib model, a local MLflow run, two Docker images, and healthy API/app containers. If it fails, inspect the newest file under logs and fix it before continuing.
 
